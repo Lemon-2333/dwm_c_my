@@ -9,7 +9,7 @@ color="^c#2D1B46^^b#335566^"
 signal=$(echo "^s$this^" | sed 's/_//')
 
 update() {
-    time_text="$(date '+%m/%d %H:%M')"
+    time_text="$(date '+%m/%d %H:%M:%S')"
     case "$(date '+%I')" in
         "01") time_icon="" ;;
         "02") time_icon="" ;;
@@ -26,12 +26,13 @@ update() {
     esac
 
     text=" $time_icon $time_text "
+    echo $time_text
     sed -i '/^export '$this'=.*$/d' $DWM/statusbar/temp
     printf "export %s='%s%s%s%s'\n" $this "$color" "$signal" "$text" "$s2d_reset" >> $DWM/statusbar/temp
 }
 
 click() {
-    notify-send "$(date '+%Y/%m/%d %H:%M')" "\n$(cal | sed 1d)"
+    notify-send "$(date '+%Y/%m/%d %H:%M:%S')" "\n$(cal | sed 1d)"
 }
 
 case "$1" in

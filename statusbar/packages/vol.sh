@@ -15,6 +15,7 @@
 # 音量 -> Volume: front-left: 13183 /  20% / -41.79 dB,   front-right: 13183 /  20% / -41.79 dB
 
 source ~/.profile
+source ~/.zshrc
 
 this=_vol
 s2d_reset="^d^"
@@ -22,16 +23,17 @@ color="^c#553388^^b#334466^"
 signal=$(echo "^s$this^" | sed 's/_//')
 
 update() {
-    sink=$(pactl info | grep 'Default Sink' | awk '{print $3}')
-    volunmuted=$(pactl list sinks | grep $sink -A 6 | sed -n '7p' | grep 'Mute: no')
-    vol_text=$(pactl list sinks | grep $sink -A 7 | sed -n '8p' | awk '{printf int($5)}')
-    if [ "$vol_text" -eq 0 ] || [ ! "$volunmuted" ]; then vol_text="--"; vol_icon="婢";
+    sink=$(pactl info | grep '默认音频入口' | awk -F： '{print  $2}')
+    volunmuted=$(pactl list sinks | grep $sink -A 6 | sed -n '7p' | grep '静音：是')
+    vol_text=$(pactl list sinks | grep $sink -A 7 | sed -n '8p' | awk '{printf int($4)}')
+    if [ "$vol_text" -eq 0 ] || [ "$volunmuted" ]; then vol_text="--"; vol_icon="婢";
     elif [ "$vol_text" -lt 10 ]; then vol_icon="奄"; vol_text=0$vol_text;
     elif [ "$vol_text" -le 20 ]; then vol_icon="奄";
     elif [ "$vol_text" -le 60 ]; then vol_icon="奔";
     else vol_icon="墳"; fi
 
     vol_text=$vol_text%
+    echo $vol_text
 
     text=" $vol_icon $vol_text "
     sed -i '/^export '$this'=.*$/d' $DWM/statusbar/temp
