@@ -22,6 +22,12 @@ export DWM=~/workspace/dwm
 exec dwm
 ```
 
+### Nix Flake
+
+```sh
+nix run github:yaocccc/dwm
+```
+
 ## 状态栏
 
 请将每一个块置为下列样式, 可直接使用本仓库statusbar相关脚本 或参考使用
@@ -78,7 +84,7 @@ dwm启动时会去调用 ~/scripts/autostart.sh 脚本(如果存在的话)
 
 4. 字体显示不全
 
-请自行安装字体 仅已archlinux举例
+请自行安装字体 仅以archlinux举例
 
 ```shell
 yay -S nerd-fonts-jetbrains-mono

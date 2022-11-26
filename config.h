@@ -19,8 +19,19 @@ static const unsigned int snap           = 10;        /* 边缘依附宽度 */
 static const unsigned int baralpha       = 0xc0;      /* 状态栏透明度 */
 static const unsigned int borderalpha    = 0xdd;      /* 边框透明度 */
 static const char *fonts[]               = { "JetBrainsMono Nerd Font:style=medium:size=13", "monospace:size=13" };
-static const char *colors[][3]           = { [SchemeNorm] = { "#bbbbbb", "#333333", "#444444" }, [SchemeSel] = { "#ffffff", "#37474F", "#42A5F5" }, [SchemeHid] = { "#dddddd", NULL, NULL }, [SchemeSystray] = { "#7799AA", "#7799AA", "#7799AA" }, [SchemeUnderline] = { "#7799AA", "#7799AA", "#7799AA" } };
-static const unsigned int alphas[][3]    = { [SchemeNorm] = { OPAQUE, baralpha, borderalpha }, [SchemeSel] = { OPAQUE, baralpha, borderalpha } };
+static const char *colors[][3]           = {          /* 颜色设置 ColFg, ColBg, ColBorder */ 
+    [SchemeNorm] = { "#bbbbbb", "#333333", "#444444" },
+    [SchemeSel] = { "#ffffff", "#37474F", "#42A5F5" },
+    [SchemeSelGlobal] = { "#ffffff", "#37474F", "#FFC0CB" },
+    [SchemeHid] = { "#dddddd", NULL, NULL },
+    [SchemeSystray] = { NULL, "#7799AA", NULL },
+    [SchemeUnderline] = { "#7799AA", NULL, NULL }, 
+};
+static const unsigned int alphas[][3]    = {          /* 透明度设置 ColFg, ColBg, ColBorder */ 
+    [SchemeNorm] = { OPAQUE, baralpha, borderalpha }, 
+    [SchemeSel] = { OPAQUE, baralpha, borderalpha },
+    [SchemeSelGlobal] = { OPAQUE, baralpha, borderalpha },
+};
 
 /* 自定义脚本位置 */
 static const char *autostartscript = "/home/lemon233/A-my美化/script/autostart.sh";
@@ -49,7 +60,7 @@ static const Rule rules[] = {
     {"noborder",             NULL,                 NULL,             0,            1,           1,        -1 },
 };
 static const char *overviewtag = "OVERVIEW";
-static const Layout overviewlayout = { "",  overview };
+static const Layout overviewlayout = { "--------",  overview };
 
 /* 自定义布局 */
 static const Layout layouts[] = {
@@ -94,12 +105,14 @@ static Key keys[] = {
     { MODKEY|ShiftMask,    XK_t,            toggleallfloating,{0} },                     /* super shift t      |  开启/关闭 全部目标的float模式 */
     { MODKEY,              XK_f,            fullscreen,       {0} },                     /* super f            |  开启/关闭 全屏 */
     { MODKEY|ShiftMask,    XK_f,            togglebar,        {0} },                     /* super shift f      |  开启/关闭 状态栏 */
+    { MODKEY,              XK_g,            toggleglobal,     {0} },                     /* super g            |  开启/关闭 全局 */
     { MODKEY,              XK_e,            incnmaster,       {.i = +1} },               /* super e            |  改变主工作区窗口数量 (1 2中切换) */
 
     { MODKEY,              XK_b,            focusmon,         {.i = +1} },               /* super b            |  光标移动到另一个显示器 */
     { MODKEY|ShiftMask,    XK_b,            tagmon,           {.i = +1} },               /* super shift b      |  将聚焦窗口移动到另一个显示器 */
 
     { MODKEY,              XK_q,            killclient,       {0} },                     /* super q            |  关闭窗口 */
+    { MODKEY|ControlMask,  XK_q,            forcekillclient,  {0} },                     /* super ctrl q       |  强制关闭窗口(处理某些情况下无法销毁的窗口) */
     { MODKEY|ShiftMask,              XK_e,            fuck_killclient,       {0} },                     /* super q            |  关闭窗口 */
     { MODKEY|ControlMask,  XK_F12,          quitprompt,             {0} },                     /* super ctrl f12     |  退出dwm */
 
@@ -122,8 +135,8 @@ static Key keys[] = {
 
     /* spawn + SHCMD 执行对应命令(已下部分建议完全自己重新定义) */
     { MODKEY,              XK_Return, spawn, SHCMD("st") },                                                     /* super enter      | 打开st终端             */
-    { MODKEY,              XK_minus,  spawn, SHCMD("floatst") },                                                /* super +          | 打开浮动st终端         */
-    { MODKEY,              XK_space,  spawn, SHCMD("floatst") },                                                /* super space      | 打开浮动st终端         */
+    { MODKEY,              XK_minus,  spawn, SHCMD("st -c global") },                                           /* super +          | 打开全局st终端         */
+    { MODKEY,              XK_space,  spawn, SHCMD("st -c float") },                                            /* super space      | 打开浮动st终端         */
     //{ MODKEY,              XK_Return,  spawn, SHCMD("floatst") },                                                /* super ctrl enter      | 打开浮动st终端         */
     { MODKEY,              XK_d,      spawn, SHCMD("rofi -show drun") },                                         /* super d          | rofi: 执行命令         */
     { MODKEY,              XK_p,      spawn, SHCMD("rofi -show menu -modi 'menu:/home/lemon233/A-my美化/script/rofi.sh'") },              /* super p          | rofi: 自定义脚本       */
