@@ -100,6 +100,7 @@ static Key keys[] = {
     { MODKEY|ShiftMask,    XK_b,            tagmon,           {.i = +1} },               /* super shift b      |  将聚焦窗口移动到另一个显示器 */
 
     { MODKEY,              XK_q,            killclient,       {0} },                     /* super q            |  关闭窗口 */
+    { MODKEY|ShiftMask,              XK_e,            fuck_killclient,       {0} },                     /* super q            |  关闭窗口 */
     { MODKEY|ControlMask,  XK_F12,          quitprompt,             {0} },                     /* super ctrl f12     |  退出dwm */
 
 	{ MODKEY|ShiftMask,    XK_space,        selectlayout,     {.v = &layouts[1]} },      /* super shift space  |  切换到网格布局 */
@@ -123,8 +124,8 @@ static Key keys[] = {
     { MODKEY,              XK_Return, spawn, SHCMD("st") },                                                     /* super enter      | 打开st终端             */
     { MODKEY,              XK_minus,  spawn, SHCMD("floatst") },                                                /* super +          | 打开浮动st终端         */
     { MODKEY,              XK_space,  spawn, SHCMD("floatst") },                                                /* super space      | 打开浮动st终端         */
-    { MODKEY,              XK_Return,  spawn, SHCMD("floatst") },                                                /* super ctrl enter      | 打开浮动st终端         */
-    { MODKEY,              XK_d,      spawn, SHCMD("rofi -show run") },                                         /* super d          | rofi: 执行命令         */
+    //{ MODKEY,              XK_Return,  spawn, SHCMD("floatst") },                                                /* super ctrl enter      | 打开浮动st终端         */
+    { MODKEY,              XK_d,      spawn, SHCMD("rofi -show drun") },                                         /* super d          | rofi: 执行命令         */
     { MODKEY,              XK_p,      spawn, SHCMD("rofi -show menu -modi 'menu:/home/lemon233/A-my美化/script/rofi.sh'") },              /* super p          | rofi: 自定义脚本       */
     { MODKEY,              XK_F1,     spawn, SHCMD("pcmanfm") },                                                /* super F1         | 文件管理器             */
     { MODKEY,              XK_k,      spawn, SHCMD("$DWM/blurlock.sh") },                                       /* super k          | 锁定屏幕               */
@@ -156,7 +157,7 @@ static Key keys[] = {
     TAGKEYS(XK_9, 8,  0,  0)
     TAGKEYS(XK_c, 9,  "google-chrome-stable", "google-chrome-stable")
     //TAGKEYS(XK_m, 10, "$DWM/music_player.sh", "pavucontrol")
-    //TAGKEYS(XK_0, 11, "icalingua", "icalingua")
+    TAGKEYS(XK_0, 11, "icalingua", "icalingua")
     //TAGKEYS(XK_w, 12, "/opt/apps/com.qq.weixin.deepin/files/run.sh", "/opt/apps/com.qq.weixin.deepin/files/run.sh")
     //TAGKEYS(XK_l, 13, "/opt/apps/com.qq.weixin.work.deepin/files/run.sh", "/opt/apps/com.qq.weixin.work.deepin/files/run.sh")
 };
