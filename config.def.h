@@ -23,7 +23,7 @@ static const char *colors[][3]           = { [SchemeNorm] = { "#bbbbbb", "#33333
 static const unsigned int alphas[][3]    = { [SchemeNorm] = { OPAQUE, baralpha, borderalpha }, [SchemeSel] = { OPAQUE, baralpha, borderalpha } };
 
 /* 自定义脚本位置 */
-static const char *autostartscript = "/home/lemon233/A-my美化/script/autostart.sh";
+static const char *autostartscript = "$DWM/autostart.sh";
 static const char *statusbarscript = "$DWM/statusbar/statusbar.sh";
 
 /* 自定义tag名称 */
@@ -131,7 +131,7 @@ static Key keys[] = {
     { MODKEY,              XK_space,  spawn, SHCMD("st -c float") },                                            /* super space      | 打开浮动st终端         */
     //{ MODKEY,              XK_Return,  spawn, SHCMD("floatst") },                                             /* super ctrl enter      | 打开浮动st终端         */
     { MODKEY,              XK_d,      spawn, SHCMD("rofi -show drun") },                                         /* super d          | rofi: 执行命令         */
-    { MODKEY,              XK_p,      spawn, SHCMD("rofi -show menu -modi 'menu:/home/lemon233/A-my美化/script/rofi.sh'") },              /* super p          | rofi: 自定义脚本       */
+    { MODKEY,              XK_p,      spawn, SHCMD("rofi -show menu -modi 'menu:$DWM/rofi.sh'") },              /* super p          | rofi: 自定义脚本       */
     { MODKEY,              XK_F1,     spawn, SHCMD("pcmanfm") },                                                /* super F1         | 文件管理器             */
     { MODKEY,              XK_k,      spawn, SHCMD("$DWM/blurlock.sh") },                                       /* super k          | 锁定屏幕               */
     { MODKEY|ShiftMask,    XK_Up,     spawn, SHCMD("$DWM/set_vol.sh up") },                                     /* super shift up   | 音量加                 */
