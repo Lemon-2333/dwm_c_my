@@ -18,20 +18,9 @@ static const int   nmaster               = 1;         /* 主工作区 窗口数�
 static const unsigned int snap           = 10;        /* 边缘依附宽度 */
 static const unsigned int baralpha       = 0xc0;      /* 状态栏透明度 */
 static const unsigned int borderalpha    = 0xdd;      /* 边框透明度 */
-static const char *fonts[]               = { "JetBrainsMono Nerd Font:style=medium:size=13", "monospace:size=13" };
-static const char *colors[][3]           = {          /* 颜色设置 ColFg, ColBg, ColBorder */ 
-    [SchemeNorm] = { "#bbbbbb", "#333333", "#444444" },
-    [SchemeSel] = { "#ffffff", "#37474F", "#42A5F5" },
-    [SchemeSelGlobal] = { "#ffffff", "#37474F", "#FFC0CB" },
-    [SchemeHid] = { "#dddddd", NULL, NULL },
-    [SchemeSystray] = { NULL, "#7799AA", NULL },
-    [SchemeUnderline] = { "#7799AA", NULL, NULL }, 
-};
-static const unsigned int alphas[][3]    = {          /* 透明度设置 ColFg, ColBg, ColBorder */ 
-    [SchemeNorm] = { OPAQUE, baralpha, borderalpha }, 
-    [SchemeSel] = { OPAQUE, baralpha, borderalpha },
-    [SchemeSelGlobal] = { OPAQUE, baralpha, borderalpha },
-};
+static const char *fonts[]               = { "JetBrainsMono Nerd Font:style=medium:size=12", "monospace:size=12" };
+static const char *colors[][3]           = { [SchemeNorm] = { "#bbbbbb", "#333333", "#444444" }, [SchemeSel] = { "#ffffff", "#37474F", "#42A5F5" }, [SchemeHid] = { "#dddddd", NULL, NULL }, [SchemeSystray] = { "#7799AA", "#7799AA", "#7799AA" }, [SchemeUnderline] = { "#7799AA", "#7799AA", "#7799AA" } };
+static const unsigned int alphas[][3]    = { [SchemeNorm] = { OPAQUE, baralpha, borderalpha }, [SchemeSel] = { OPAQUE, baralpha, borderalpha } };
 
 /* 自定义脚本位置 */
 static const char *autostartscript = "/home/lemon233/A-my美化/script/autostart.sh";
@@ -42,25 +31,29 @@ static const char *statusbarscript = "$DWM/statusbar/statusbar.sh";
 //            ﮸ 
 static const char *tags[] = { "", "", "", "", "", "", "", "", "", "", "", "ﬄ", "﬐", "" };
 static const Rule rules[] = {
-    /* class                 instance              title             tags mask     isfloating   noborder  monitor */
-    {"music",                NULL,                 NULL,             1 << 10,      1,           1,        -1 },
-    { NULL,                 "icalingua",           NULL,             1 << 11,      0,           1,        -1 },
-    { NULL,                 "wechat.exe",          NULL,             1 << 12,      0,           0,        -1 },
-    { NULL,                 "wxwork.exe",          NULL,             1 << 13,      0,           0,        -1 },//ulauncher
-    { NULL,                 "Ulauncher",           NULL,             0,      1,           0,        -1 },
-    { NULL,                 NULL,           "Ulauncher",             0,      1,           0,        -1 },
-    { NULL,                  NULL,                "broken",          0,            1,           0,        -1 },
-    { NULL,                  NULL,                "图片查看",        0,            1,           0,        -1 },
-    { NULL,                  NULL,                "图片预览",        0,            1,           0,        -1 },
-    { NULL,                  NULL,                "crx_",            0,            1,           0,        -1 },
-    {"chrome",               NULL,                 NULL,             1 << 9,       0,           0,        -1 },
-    {"Chromium",             NULL,                 NULL,             1 << 9,       0,           0,        -1 },
-    {"flameshot",            NULL,                 NULL,             0,            1,           0,        -1 },
-    {"float",                NULL,                 NULL,             0,            1,           0,        -1 },
-    {"noborder",             NULL,                 NULL,             0,            1,           1,        -1 },
+    /* class                 instance              title             tags mask     isfloating   isisglobal    noborder  monitor */
+    {"music",                NULL,                 NULL,             1 << 10,      1,            0,              1,        -1 },
+    { NULL,                 "icalingua",           NULL,             1 << 11,      0,            0,              1,        -1 },
+    { NULL,                 "wechat.exe",          NULL,             1 << 12,      0,            0,              0,        -1 },
+    { NULL,                 "wxwork.exe",          NULL,             1 << 13,      0,            0,              0,        -1 },//ulauncher
+    { NULL,                 "Ulauncher",           NULL,             0,            1,            0,              0,        -1 },
+    { NULL,                 NULL,           "Ulauncher",             0,            1,            0,              0,        -1 },
+    { NULL,                 NULL,           "MainWindow",             0,            1,            0,              0,        -1 },
+    { NULL,                  NULL,                "broken",          0,            1,            0,              0,        -1 },
+    { NULL,                  NULL,                "图片查看",         0,            1,           0,               0,        -1 },
+    { NULL,                  NULL,                "图片预览",         0,            1,           0,               0,        -1 },
+    { NULL,                  NULL,                "crx_",            0,            1,            0,              0,        -1 },
+    {"chrome",               NULL,                 NULL,             1 << 9,       0,            0,              0,        -1 },
+    {"Chromium",             NULL,                 NULL,             1 << 9,       0,            0,              0,        -1 },
+    {"flameshot",            NULL,                 NULL,             0,            1,            0,              0,        -1 },
+    {"float",                NULL,                 NULL,             0,            1,            0,              0,        -1 },
+    {"noborder",             NULL,                 NULL,             0,            1,            0,              1,        -1 },
+    {"float",                NULL,                 NULL,             0,            1,            0,              0,        -1 }, // 特殊class client默认浮动
+    {"noborder",             NULL,                 NULL,             0,            1,            0,              1,        -1 }, // 特殊class client默认无边框
+    {"global",               NULL,                 NULL,             255,          1,            1,              0,        -1 }, // 特殊class client全局于所有tag
 };
 static const char *overviewtag = "OVERVIEW";
-static const Layout overviewlayout = { "--------",  overview };
+static const Layout overviewlayout = { "",  overview };
 
 /* 自定义布局 */
 static const Layout layouts[] = {
@@ -103,9 +96,9 @@ static Key keys[] = {
 
     { MODKEY,              XK_t,            togglefloating,   {0} },                     /* super t            |  开启/关闭 聚焦目标的float模式 */
     { MODKEY|ShiftMask,    XK_t,            toggleallfloating,{0} },                     /* super shift t      |  开启/关闭 全部目标的float模式 */
+    { MODKEY,              XK_g,            toggleglobal,     {0} },                     /* super g            |  开启/关闭 全局 */
     { MODKEY,              XK_f,            fullscreen,       {0} },                     /* super f            |  开启/关闭 全屏 */
     { MODKEY|ShiftMask,    XK_f,            togglebar,        {0} },                     /* super shift f      |  开启/关闭 状态栏 */
-    { MODKEY,              XK_g,            toggleglobal,     {0} },                     /* super g            |  开启/关闭 全局 */
     { MODKEY,              XK_e,            incnmaster,       {.i = +1} },               /* super e            |  改变主工作区窗口数量 (1 2中切换) */
 
     { MODKEY,              XK_b,            focusmon,         {.i = +1} },               /* super b            |  光标移动到另一个显示器 */
@@ -113,14 +106,13 @@ static Key keys[] = {
 
     { MODKEY,              XK_q,            killclient,       {0} },                     /* super q            |  关闭窗口 */
     { MODKEY|ControlMask,  XK_q,            forcekillclient,  {0} },                     /* super ctrl q       |  强制关闭窗口(处理某些情况下无法销毁的窗口) */
-    { MODKEY|ShiftMask,              XK_e,            fuck_killclient,       {0} },                     /* super q            |  关闭窗口 */
-    { MODKEY|ControlMask,  XK_F12,          quitprompt,             {0} },                     /* super ctrl f12     |  退出dwm */
+    { MODKEY|ControlMask,  XK_F12,          quitprompt,             {0} },               /* super ctrl f12     |  退出dwm */
 
 	{ MODKEY|ShiftMask,    XK_space,        selectlayout,     {.v = &layouts[1]} },      /* super shift space  |  切换到网格布局 */
 	{ MODKEY,              XK_o,            showonlyorall,    {0} },                     /* super o            |  切换 只显示一个窗口 / 全部显示 */
 
-    { MODKEY|ControlMask,  XK_equal,        setgap,           {.i = -6} },               /* super ctrl up      |  窗口增大 */
-    { MODKEY|ControlMask,  XK_minus,        setgap,           {.i = +6} },               /* super ctrl down    |  窗口减小 */
+    { MODKEY|ControlMask,  XK_equal,        setgap,           {.i = -6} },               /* super ctrl +      |  窗口增大 */
+    { MODKEY|ControlMask,  XK_minus,        setgap,           {.i = +6} },               /* super ctrl -    |  窗口减小 */
     { MODKEY|ControlMask,  XK_space,        setgap,           {.i = 0} },                /* super ctrl space   |  窗口重置 */
 
     { MODKEY|ControlMask,  XK_Up,           movewin,          {.ui = UP} },              /* super ctrl up      |  移动窗口 */
@@ -137,7 +129,7 @@ static Key keys[] = {
     { MODKEY,              XK_Return, spawn, SHCMD("st") },                                                     /* super enter      | 打开st终端             */
     { MODKEY,              XK_minus,  spawn, SHCMD("st -c global") },                                           /* super +          | 打开全局st终端         */
     { MODKEY,              XK_space,  spawn, SHCMD("st -c float") },                                            /* super space      | 打开浮动st终端         */
-    //{ MODKEY,              XK_Return,  spawn, SHCMD("floatst") },                                                /* super ctrl enter      | 打开浮动st终端         */
+    //{ MODKEY,              XK_Return,  spawn, SHCMD("floatst") },                                             /* super ctrl enter      | 打开浮动st终端         */
     { MODKEY,              XK_d,      spawn, SHCMD("rofi -show drun") },                                         /* super d          | rofi: 执行命令         */
     { MODKEY,              XK_p,      spawn, SHCMD("rofi -show menu -modi 'menu:/home/lemon233/A-my美化/script/rofi.sh'") },              /* super p          | rofi: 自定义脚本       */
     { MODKEY,              XK_F1,     spawn, SHCMD("pcmanfm") },                                                /* super F1         | 文件管理器             */
@@ -145,9 +137,9 @@ static Key keys[] = {
     { MODKEY|ShiftMask,    XK_Up,     spawn, SHCMD("$DWM/set_vol.sh up") },                                     /* super shift up   | 音量加                 */
     { MODKEY|ShiftMask,    XK_Down,   spawn, SHCMD("$DWM/set_vol.sh down") },                                   /* super shift down | 音量减                 */
 
-    { 0,                    XF86XK_AudioRaiseVolume,     spawn, SHCMD("$DWM/set_vol.sh up") },                                     /* super shift up   | 音量加                 */
-    { 0,                    XF86XK_AudioLowerVolume,   spawn, SHCMD("$DWM/set_vol.sh down") },                                   /* super shift down | 音量减                 */
-    { 0,                    XF86XK_AudioMute,   spawn, SHCMD("$DWM/set_vol.sh toggle") },                                   /* super shift toggle | 音量静音                 */
+    { 0, XF86XK_AudioRaiseVolume,     spawn, SHCMD("$DWM/set_vol.sh up") },                                     /* super shift up   | 音量加                 */
+    { 0,   XF86XK_AudioLowerVolume,   spawn, SHCMD("$DWM/set_vol.sh down") },                                   /* super shift down | 音量减                 */
+    { 0,          XF86XK_AudioMute,   spawn, SHCMD("$DWM/set_vol.sh toggle") },                                 /* super shift toggle | 音量静音                 */
 
     { MODKEY|ShiftMask,    XK_a,      spawn, SHCMD("flameshot gui -c -p ~/Pictures/screenshots") },             /* super shift a    | 截图                   */
     { MODKEY|ShiftMask,    XK_k,      spawn, SHCMD("$DWM/screenkey.sh") },                                      /* super shift k    | 打开键盘输入显示       */
@@ -169,7 +161,7 @@ static Key keys[] = {
     TAGKEYS(XK_8, 7,  0,  0)
     TAGKEYS(XK_9, 8,  0,  0)
     TAGKEYS(XK_c, 9,  "google-chrome-stable", "google-chrome-stable")
-    //TAGKEYS(XK_m, 10, "$DWM/music_player.sh", "pavucontrol")
+    TAGKEYS(XK_m, 10, "/opt/appimages/listen1.AppImage", 0)
     TAGKEYS(XK_0, 11, "icalingua", "icalingua")
     //TAGKEYS(XK_w, 12, "/opt/apps/com.qq.weixin.deepin/files/run.sh", "/opt/apps/com.qq.weixin.deepin/files/run.sh")
     //TAGKEYS(XK_l, 13, "/opt/apps/com.qq.weixin.work.deepin/files/run.sh", "/opt/apps/com.qq.weixin.work.deepin/files/run.sh")

@@ -242,7 +242,6 @@ static void restorewin(const Arg *arg);
 static void incnmaster(const Arg *arg);
 static void keypress(XEvent *e);
 static void killclient(const Arg *arg);
-static void fuck_killclient(const Arg *arg);
 static void forcekillclient(const Arg *arg);
 
 static void manage(Window w, XWindowAttributes *wa);
@@ -1594,22 +1593,6 @@ killclient(const Arg *arg)
         focusstack(NULL);
 }
 
-void
-fuck_killclient(const Arg *arg)
-{
-    Client *c;
-    XEvent ev;
-
-        XGrabServer(dpy);
-        XSetErrorHandler(xerrordummy);
-        XSetCloseDownMode(dpy, DestroyAll);
-        XKillClient(dpy, selmon->sel->win);
-        XSync(dpy, False);
-        XSetErrorHandler(xerror);
-        XUngrabServer(dpy);
-    focusstack(NULL);
-    XSendEvent(dpy, selmon->sel->win, False, NoEventMask, &ev);
-}
 
 void
 forcekillclient(const Arg *arg)
@@ -3560,10 +3543,10 @@ main(int argc, char *argv[])
     scan();
     runAutostart();
     run();
-    cleanup();
     if (restart == 1) {
 		execlp("dwm", "dwm", NULL);
 	}
+    cleanup();
     XCloseDisplay(dpy);
     return EXIT_SUCCESS;
 }
